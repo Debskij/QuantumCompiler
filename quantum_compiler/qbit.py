@@ -22,23 +22,23 @@ class QuantumCircuit:
     def gate_creator(self, position: int, gate: QuantumGates) -> Matrix:
         operator_list = [QuantumGates.unitary for _ in range(self.qbit_amount)]  # type: ignore
         operator_list[position] = gate  # type: ignore
-        return reduce((lambda x, y: x + y), operator_list)
+        return reduce((lambda x, y: x + y), operator_list)  # type: ignore
 
-    def x(self, position: int) -> np.array:
+    def x(self, position: int) -> np.ndarray:
         """x-pauli gate, also called not-gate, changes |0> to |1> and |1> to |0>
 
         :param position: declares which qbit has to be reverted
         """
         return self.matrix_representation * self.gate_creator(position, QuantumGates.x_pauli)  # type: ignore
 
-    def z(self, position: int) -> np.array:
+    def z(self, position: int) -> np.ndarray:
         """z-pauli gate, also called phase-flip-gate, leaves |0> unchanged and replaces |1> with -|1>
 
         :param position: declares which qbit has to be modified
         """
         return self.matrix_representation * self.gate_creator(position, QuantumGates.z_pauli)  # type: ignore
 
-    def h(self, position: int) -> np.array:
+    def h(self, position: int) -> np.ndarray:
         """h-gate, called Hadamard gate, changes status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2)
 
         :param position: declares which qbit has to be modified

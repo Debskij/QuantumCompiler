@@ -8,13 +8,13 @@ class Matrix:
         else:
             self.value = np.swapaxes(np.array(value), 0, 1)
 
-    def __mul__(self, other: np.array) -> np.array:
+    def __mul__(self, other) -> np.ndarray:  # type: ignore
         np.matmul(self.value, other.value)
 
-    def __add__(self, other: np.array) -> np.array:
+    def __add__(self, other) -> np.ndarray:  # type: ignore
         np.kron(self.value, other.value)
 
-    def reverse_value(self) -> np.array:
+    def reverse_value(self) -> np.ndarray:
         return np.array([x[0] for x in self.value])
 
 
