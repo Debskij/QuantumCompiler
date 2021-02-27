@@ -8,13 +8,13 @@ class Matrix:
         else:
             self.value = np.swapaxes(np.array(value), 0, 1)
 
-    def __mul__(self, other) -> np.array:
+    def __mul__(self, other) -> np.ndarray:  # type: ignore
         np.matmul(self.value, other.value)
 
-    def __add__(self, other) -> np.array:
+    def __add__(self, other) -> np.ndarray:  # type: ignore
         np.kron(self.value, other.value)
 
-    def reverse_value(self) -> np.array:
+    def reverse_value(self) -> np.ndarray:
         return np.array([x[0] for x in self.value])
 
 
@@ -32,7 +32,7 @@ class MatrixOperator:
 
     @staticmethod
     def matrix_multiply(quantum_value: Matrix, gate_value: Matrix) -> Matrix:
-        """ function that allows to use gates on calculated quantum value
+        """function that allows to use gates on calculated quantum value
 
         :param quantum_value: matrix with single column and rows number equal to 2**(amount of qbits)
         :param gate_value: square matrix with amount of rows and columns equal 2**(amount of qbits)
