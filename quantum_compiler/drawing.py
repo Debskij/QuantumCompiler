@@ -11,7 +11,7 @@ def draw_axes():
 
 
 def draw_unit_circle():
-    unit_circle = matplotlib.pyplot.Circle((0, 0), 1, color='black', fill=False)
+    unit_circle = matplotlib.pyplot.Circle((0, 0), 1, color="black", fill=False)
     matplotlib.pyplot.gca().add_patch(unit_circle)
 
 
@@ -28,7 +28,7 @@ def draw_qubit():
     # draw a figure
     matplotlib.pyplot.figure(figsize=(6, 6), dpi=60)
     # draw the origin
-    matplotlib.pyplot.plot(0, 0, 'ro')  # a point in red color
+    matplotlib.pyplot.plot(0, 0, "ro")  # a point in red color
     # drawing the axes by using one of our predefined function
     draw_axes()
     # drawing the unit circle by using one of our predefined function

@@ -1,5 +1,4 @@
 from typing import Optional
-
 from numpy import array
 
 
@@ -21,5 +20,5 @@ class States:
         """Converts matrix representation of qubit to string form
 
         :param matrix_representation: single dimensional matrix with one column and amount of rows being power of two
-        :return: string representation of qubit, if possible to describe without precision losses otherwise returns None
+        :return: string representation of qubit, if possible to describe without precision losses otherwise return None
         """
