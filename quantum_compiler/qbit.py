@@ -11,7 +11,7 @@ if typing.TYPE_CHECKING:
 
 class QuantumCircuit:
     def __init__(self, qbit_amount: int):
-        """ class describing circuit basic operations
+        """class describing circuit basic operations
 
         :param qbit_amount: integer value describing amount of qbits in circuit
         """
@@ -25,28 +25,28 @@ class QuantumCircuit:
         return reduce((lambda x, y: x + y), operator_list)
 
     def x(self, position: int) -> np.array:
-        """ x-pauli gate, also called not-gate, changes |0> to |1> and |1> to |0>
+        """x-pauli gate, also called not-gate, changes |0> to |1> and |1> to |0>
 
         :param position: declares which qbit has to be reverted
         """
         return self.matrix_representation * self.gate_creator(position, QuantumGates.x_pauli)  # type: ignore
 
     def z(self, position: int) -> np.array:
-        """ z-pauli gate, also called phase-flip-gate, leaves |0> unchanged and replaces |1> with -|1>
+        """z-pauli gate, also called phase-flip-gate, leaves |0> unchanged and replaces |1> with -|1>
 
         :param position: declares which qbit has to be modified
         """
         return self.matrix_representation * self.gate_creator(position, QuantumGates.z_pauli)  # type: ignore
 
     def h(self, position: int) -> np.array:
-        """ h-gate, called Hadamard gate, changes status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2)
+        """h-gate, called Hadamard gate, changes status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2)
 
         :param position: declares which qbit has to be modified
         """
         return self.matrix_representation * self.gate_creator(position, QuantumGates.hadamard)  # type: ignore
 
     def measure(self) -> typing.Optional[str]:
-        """ function measuring value of superpositioned qbit basing on digital random module
+        """function measuring value of superpositioned qbit basing on digital random module
 
         :return: integer value 0 or 1 of measured qbits
         """

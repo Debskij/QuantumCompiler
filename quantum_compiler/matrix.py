@@ -32,7 +32,7 @@ class MatrixOperator:
 
     @staticmethod
     def matrix_multiply(quantum_value: Matrix, gate_value: Matrix) -> Matrix:
-        """ function that allows to use gates on calculated quantum value
+        """function that allows to use gates on calculated quantum value
 
         :param quantum_value: matrix with single column and rows number equal to 2**(amount of qbits)
         :param gate_value: square matrix with amount of rows and columns equal 2**(amount of qbits)
