@@ -3,7 +3,7 @@ from typing import Optional
 from numpy import array
 
 
-class states:
+class States:
     @staticmethod
     def decode_state(qubit_representation: str) -> array:
         """Converts string representation of qubit (ex. |01>, |+>, |->, |001>, |+++>) to matrix form
