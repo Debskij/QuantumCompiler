@@ -1,20 +1,22 @@
-from typing import List
-
 import numpy as np
 
 
 class Matrix:
-    def __init__(self, value: List[float]):
+    def __init__(self, value: list):
         if type(value[0]) is list:
             self.value = np.array(value)
         else:
-            self.value = np.swapaxes(np.array(value))
+            self.value = np.swapaxes(np.array(value), 0, 1)
 
     def __mul__(self, other) -> np.array:
         np.matmul(self.value, other.value)
 
+    def __add__(self, other) -> np.array:
+        np.kron(self.value, other.value)
+
     def reverse_value(self) -> np.array:
-        return np.swapaxes(self.value)
+        return np.array([x[0] for x in self.value])
+
 
 class MatrixOperator:
     @staticmethod
@@ -26,6 +28,7 @@ class MatrixOperator:
         :param second_element: matrix notation of first element
         :return: size of expected matrix is equal to n1*n2 and m1*m2 for n and m being amount of rows and columns
         """
+        return Matrix(first_element.value + second_element.value)
 
     @staticmethod
     def matrix_multiply(quantum_value: Matrix, gate_value: Matrix) -> Matrix:
@@ -35,3 +38,4 @@ class MatrixOperator:
         :param gate_value: square matrix with amount of rows and columns equal 2**(amount of qbits)
         :return: new matrix being product of q_val and gate_val
         """
+        return Matrix(quantum_value.value * gate_value.value)
