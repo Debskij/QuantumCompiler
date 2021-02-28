@@ -2,7 +2,7 @@ import typing
 import numpy as np
 import math
 
-from matrix import Matrix, MatrixOperator
+from .matrix import Matrix, MatrixOperator
 
 QUBIT_MATRICES = {
     "0": [1.0, 0.0],
@@ -10,6 +10,7 @@ QUBIT_MATRICES = {
     "+": [1 / math.sqrt(2.0), 1 / math.sqrt(2.0)],
     "-": [1 / math.sqrt(2.0), -1 / math.sqrt(2.0)],
 }
+EPSILON = 0.00001
 
 
 class States:
@@ -32,11 +33,14 @@ class States:
         qubit_representation = strip_braket_signs()
 
         first_qubit = qubit_representation[0]
-        current_matrix = Matrix(QUBIT_MATRICES.get(first_qubit))
+        current_matrix = Matrix(QUBIT_MATRICES[first_qubit])
         qubit_representation = qubit_representation[1:]
 
         for qubit in qubit_representation:
-            current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES.get(qubit)))
+            current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES[qubit]))
+
+        if np.sum(np.square(current_matrix)) > EPSILON:
+            raise RuntimeError("Possibilities matrix does not sum to 1")
 
         return current_matrix
 
