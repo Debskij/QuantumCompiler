@@ -1,8 +1,9 @@
+import typing
 import numpy as np
 
 
 class Matrix:
-    def __init__(self, value: list):
+    def __init__(self, value: typing.Union[list, np.ndarray]):
         self.value = np.array(value)
 
     def __mul__(self, other) -> np.ndarray:  # type: ignore

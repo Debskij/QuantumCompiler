@@ -39,10 +39,10 @@ class States:
         for qubit in qubit_representation:
             current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES[qubit]))
 
-        if 1 - np.sum(np.square(current_matrix)) > EPSILON:
+        if 1 - np.sum(np.square(current_matrix.value)) > EPSILON:
             raise RuntimeError("Possibilities matrix does not sum to 1")
 
-        return current_matrix
+        return current_matrix.value
 
     @staticmethod
     def encode_state(matrix_representation: np.ndarray) -> typing.Optional[str]:
