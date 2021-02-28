@@ -41,3 +41,6 @@ jobs:
       run: flake8
     - name: Run Mypy
       run: mypy quantum_compiler
+    - name: Test with pytest
+      run: |
+        pytest
