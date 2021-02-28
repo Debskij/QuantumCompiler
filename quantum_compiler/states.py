@@ -39,7 +39,7 @@ class States:
         for qubit in qubit_representation:
             current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES[qubit]))
 
-        if np.sum(np.square(current_matrix)) > EPSILON:
+        if 1 - np.sum(np.square(current_matrix)) > EPSILON:
             raise RuntimeError("Possibilities matrix does not sum to 1")
 
         return current_matrix
