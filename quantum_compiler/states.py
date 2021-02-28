@@ -1,5 +1,15 @@
 import typing
 import numpy as np
+import math
+
+from matrix import Matrix, MatrixOperator
+
+QUBIT_MATRICES = {
+    "0": [1.0, 0.0],
+    "1": [0.0, 1.0],
+    "+": [1 / math.sqrt(2.0), 1 / math.sqrt(2.0)],
+    "-": [1 / math.sqrt(2.0), -1 / math.sqrt(2.0)],
+}
 
 
 class States:
@@ -13,7 +23,22 @@ class States:
                  length of symbols. It will always contain pow(2, len(qubit_representation)-2)
         """
 
-        return []  # type: ignore
+        def strip_braket_signs():
+            return qubit_representation[1:-1]
+
+        if len(qubit_representation) < 3:
+            raise ValueError("Qubit string representation has to have at least 1 character e.g. |1>")
+
+        qubit_representation = strip_braket_signs()
+
+        first_qubit = qubit_representation[0]
+        current_matrix = Matrix(QUBIT_MATRICES.get(first_qubit))
+        qubit_representation = qubit_representation[1:]
+
+        for qubit in qubit_representation:
+            current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES.get(qubit)))
+
+        return current_matrix
 
     @staticmethod
     def encode_state(matrix_representation: np.ndarray) -> typing.Optional[str]:
