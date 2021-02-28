@@ -2,6 +2,7 @@ import typing
 import numpy as np
 import math
 
+from itertools import product
 from .matrix import Matrix, MatrixOperator
 
 QUBIT_MATRICES = {
@@ -51,3 +52,20 @@ class States:
         :param matrix_representation: single dimensional matrix with one column and amount of rows being power of two
         :return: string representation of qubit, if possible to describe without precision losses otherwise return None
         """
+        braket_length = int(math.log2(matrix_representation.size))
+        possible_braket_representations = [
+            "|" + "".join(s) + ">" for s in product(QUBIT_MATRICES.keys(), repeat=braket_length)
+        ]
+        matches_found = []
+
+        for braket in possible_braket_representations:
+            if np.allclose(States.decode_state(braket), matrix_representation):
+                matches_found.append(braket)
+
+        if not matches_found:
+            raise ValueError("No braket representation was found")
+
+        if len(matches_found) > 1:
+            raise RuntimeError("More than one braket representation was found")
+
+        return matches_found[0]
