@@ -15,4 +15,4 @@ for i in range(1, 5):
 def test_decode_state(qubit):
     decoded_state = states.States.decode_state(qubit)
     possibilities = np.square(decoded_state)
-    assert abs(1 - possibilities) < states.EPSILON
+    assert abs(1 - np.sum(possibilities)) < states.EPSILON
