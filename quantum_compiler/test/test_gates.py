@@ -45,3 +45,19 @@ def test_z_gate_on_multiple_qbits():
     a1.z(0)
     assert a1.measure() == "|1010>", "Z-gate didnt flip sign for |1> backwards"
 
+
+def test_h_gate_on_single_qbit():
+    a1 = QuantumCircuit(1)
+    assert a1.measure() == "|0>", "Circuit initialized with invalide value"
+    a1.h(0)
+    assert a1.show_state() == "|+>", "H-gate didnt work fine for single qbit"
+    a1.h(0)
+    assert a1.measure() == "|0>", "Reversion of h-gate didnt work fine for single qbit"
+    a1.x(0)
+    assert a1.measure() == "|1>", "X-gate didnt work fine"
+    a1.h(0)
+    assert a1.show_state() == "|->", "H-gate didnt work fine for single qbit"
+    a1.h(0)
+    assert a1.measure() == "|1>", "Reversion of h-gate didnt work fine for single qbit"
+
+

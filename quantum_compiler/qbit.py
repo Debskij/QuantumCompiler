@@ -1,12 +1,13 @@
-import numpy as np
 import typing
+from bisect import bisect
 from functools import reduce
 from random import random
-from .gates import QuantumGates
-from .states import States
 
-if typing.TYPE_CHECKING:
-    from .matrix import Matrix
+import numpy as np
+
+from .gates import QuantumGates
+from .matrix import Matrix
+from .states import States
 
 
 class QuantumCircuit:
@@ -29,21 +30,26 @@ class QuantumCircuit:
 
         :param position: declares which qbit has to be reverted
         """
-        return self.matrix_representation * self.gate_creator(position, QuantumGates.x_pauli)  # type: ignore
+        self.matrix_representation = self.gate_creator(position, QuantumGates.x_pauli) * \
+                                     Matrix(self.matrix_representation)  # type: ignore
 
-    def z(self, position: int) -> np.ndarray:
+    def z(self, position: int):
         """z-pauli gate, also called phase-flip-gate, leaves |0> unchanged and replaces |1> with -|1>
 
         :param position: declares which qbit has to be modified
         """
-        return self.matrix_representation * self.gate_creator(position, QuantumGates.z_pauli)  # type: ignore
+        self.matrix_representation = self.matrix_representation * self.gate_creator(position,
+                                                                                    QuantumGates.z_pauli)  # type: ignore
 
     def h(self, position: int) -> np.ndarray:
         """h-gate, called Hadamard gate, changes status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2)
 
         :param position: declares which qbit has to be modified
         """
-        return self.matrix_representation * self.gate_creator(position, QuantumGates.hadamard)  # type: ignore
+        # return self.matrix_representation * self.gate_creator(position, QuantumGates.hadamard)  # type: ignore
+
+    def show_state(self) -> str:
+        return States.encode_state(self.matrix_representation)
 
     def measure(self) -> typing.Optional[str]:
         """function measuring value of superpositioned qbit basing on digital random module
@@ -53,5 +59,5 @@ class QuantumCircuit:
         probability = np.cumsum(self.matrix_representation)
         return_val = np.zeros(2 ** self.qbit_amount)
         random_val = random()
-        return_val[list(probability).index(random_val)] = 1.0
+        return_val[bisect(list(probability), random_val)] = 1.0
         return States.encode_state(return_val)

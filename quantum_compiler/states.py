@@ -42,7 +42,6 @@ class States:
 
         if 1 - np.sum(np.square(current_matrix.value)) > EPSILON:
             raise RuntimeError("Possibilities matrix does not sum to 1")
-
         return current_matrix.value
 
     @staticmethod
