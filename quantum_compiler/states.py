@@ -1,8 +1,9 @@
-import typing
-import numpy as np
 import math
-
+import typing
 from itertools import product
+
+import numpy as np
+
 from .matrix import Matrix, MatrixOperator
 
 QUBIT_MATRICES = {

@@ -59,5 +59,3 @@ def test_h_gate_on_single_qbit():
     assert a1.show_state() == "|->", "H-gate didnt work fine for single qbit"
     a1.h(0)
     assert a1.measure() == "|1>", "Reversion of h-gate didnt work fine for single qbit"
-
-
