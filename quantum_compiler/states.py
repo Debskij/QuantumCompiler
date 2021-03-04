@@ -27,11 +27,12 @@ class States:
         """
 
         def strip_braket_signs():
-            return qubit_representation[1:-1]
+            return qubit_representation[2:-1] if negative else qubit_representation[1:-1]
 
         if len(qubit_representation) < 3:
             raise ValueError("Qubit string representation has to have at least 1 character e.g. |1>")
 
+        negative = qubit_representation[0] == "-"
         qubit_representation = strip_braket_signs()
 
         first_qubit = qubit_representation[0]
@@ -41,27 +42,30 @@ class States:
         for qubit in qubit_representation:
             current_matrix = MatrixOperator.kronecker_product(current_matrix, Matrix(QUBIT_MATRICES[qubit]))
 
+        if negative:
+            current_matrix = Matrix(np.negative(current_matrix.value))
+
         if 1 - np.sum(np.square(current_matrix.value)) > EPSILON:
             raise RuntimeError("Possibilities matrix does not sum to 1")
         return current_matrix.value
 
     @staticmethod
-    def encode_state(matrix_representation: np.ndarray) -> typing.Optional[str]:
+    def encode_state(matrix_representation: np.ndarray) -> str:
         """Converts matrix representation of qubit to string form
 
         :param matrix_representation: single dimensional matrix with one column and amount of rows being power of two
         :return: string representation of qubit, if possible to describe without precision losses otherwise return None
         """
         braket_length = int(math.log2(matrix_representation.size))
+
         possible_braket_representations = [
             "|" + "".join(s) + ">" for s in product(QUBIT_MATRICES.keys(), repeat=braket_length)
-        ]
+        ] + ["-|" + "".join(s) + ">" for s in product(QUBIT_MATRICES.keys(), repeat=braket_length)]
         matches_found = []
 
         for braket in possible_braket_representations:
             if np.allclose(States.decode_state(braket), matrix_representation):
                 matches_found.append(braket)
-
         if not matches_found:
             raise ValueError("No braket representation was found")
 
