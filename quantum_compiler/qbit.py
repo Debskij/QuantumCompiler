@@ -20,7 +20,7 @@ class QuantumCircuit:
         self.string_representation = "|" + "0" * qbit_amount + ">"
         self.matrix_representation = States.decode_state(self.string_representation)
 
-    def gate_creator(self, position: int, gate: Matrix) -> np.ndarray:
+    def gate_creator(self, position: int, gate: Matrix) -> Matrix:
         operator_list = [QuantumGates.unitary for _ in range(self.qbit_amount)]  # type: ignore
         operator_list[position] = gate  # type: ignore
         return reduce((lambda x, y: Matrix(x + y)), operator_list)  # type: ignore
@@ -51,7 +51,10 @@ class QuantumCircuit:
 
         :param position: declares which qbit has to be modified
         """
-        # return self.matrix_representation * self.gate_creator(position, QuantumGates.hadamard)  # type: ignore
+        self.matrix_representation = Matrix(self.matrix_representation) * self.gate_creator(
+            position, QuantumGates.hadamard
+        )
+        self.string_representation = States.encode_state(self.matrix_representation)  # type: ignore
 
     def show_state(self) -> str:
         return self.string_representation
