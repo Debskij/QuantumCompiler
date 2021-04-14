@@ -15,10 +15,11 @@ def draw_unit_circle():
     matplotlib.pyplot.gca().add_patch(unit_circle)
 
 
-def draw_quantum_state(x, y, name):
+def draw_quantum_state(cords: list, name, color="blue"):
+    x, y = list(cords)
     x1 = 0.92 * x
     y1 = 0.92 * y
-    matplotlib.pyplot.arrow(0, 0, x1, y1, head_width=0.04, head_length=0.08, color="blue")
+    matplotlib.pyplot.arrow(0, 0, x1, y1, head_width=0.04, head_length=0.08, color=color)
     x2 = 1.15 * x
     y2 = 1.15 * y
     matplotlib.pyplot.text(x2, y2, name)
