@@ -1,5 +1,5 @@
 # QuantumCompiler
-
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/Debskij/QuantumCompiler/main?filepath=examples%2Fpresentation.ipynb)
 ## How to use pre-commit hooks
 
 1. In your virtual environment run
