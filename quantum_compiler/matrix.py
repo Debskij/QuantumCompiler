@@ -3,6 +3,8 @@ import numpy as np
 
 
 class Matrix:
+    """Class for overriding Matrix basic computation operations."""
+
     def __init__(self, value: typing.Union[list, np.ndarray]):
         self.value = np.array(value)
 
@@ -20,23 +22,28 @@ class Matrix:
 
 
 class MatrixOperator:
+    """Class for handling matrix operations."""
+
     @staticmethod
     def kronecker_product(first_element: Matrix, second_element: Matrix) -> Matrix:
-        """most important operation for multiple qubit processing, also called tensor product, order of elements
-        is important. Both elements might be different sizes.
+        """
+        Most important operation for multiple qbit processing, also called tensor product, order of elements
+        is important. Both elements might be different sizes. Size of returned matrix is equal to n1*n2 and m1*m2
+        for n and m being amount of rows and columns.
 
         :param first_element: matrix notation of first element
         :param second_element: matrix notation of first element
-        :return: size of expected matrix is equal to n1*n2 and m1*m2 for n and m being amount of rows and columns
+        :return: kronecker product of first_element and second_element
         """
         return Matrix(first_element + second_element)
 
     @staticmethod
     def matrix_multiply(quantum_value: Matrix, gate_value: Matrix) -> Matrix:
-        """function that allows to use gates on calculated quantum value
+        """
+        Operation that allows to use gates on calculated quantum value.
 
         :param quantum_value: matrix with single column and rows number equal to 2**(amount of qbits)
         :param gate_value: square matrix with amount of rows and columns equal 2**(amount of qbits)
-        :return: new matrix being product of q_val and gate_val
+        :return: product of q_val and gate_val
         """
         return Matrix(quantum_value * gate_value)

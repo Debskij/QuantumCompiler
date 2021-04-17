@@ -11,8 +11,11 @@ from .states import States
 
 
 class QuantumCircuit:
+    """Class describing basic circuit operations."""
+
     def __init__(self, qbit_amount: int):
-        """class describing circuit basic operations
+        """
+        Initialize class.
 
         :param qbit_amount: integer value describing amount of qbits in circuit
         """
@@ -20,47 +23,58 @@ class QuantumCircuit:
         self.string_representation = "|" + "0" * qbit_amount + ">"
         self.matrix_representation = States.decode_state(self.string_representation)
 
-    def gate_creator(self, position: int, gate: Matrix) -> Matrix:
+    def _gate_creator(self, position: int, gate: Matrix) -> Matrix:
         operator_list = [QuantumGates.unitary for _ in range(self.qbit_amount)]  # type: ignore
         operator_list[position] = gate  # type: ignore
         return reduce((lambda x, y: Matrix(x + y)), operator_list)  # type: ignore
 
     def x(self, position: int) -> None:
-        """x-pauli gate, also called not-gate, changes |0> to |1> and |1> to |0>
-
-        :param position: declares which qbit has to be reverted
         """
-        self.matrix_representation = self.gate_creator(position, QuantumGates.x_pauli) * Matrix(
+        X-pauli gate, also called not-gate, change |0> to |1> and |1> to |0>.
+
+        :param position: index of qbit to be reverted
+        :return: None
+        """
+        self.matrix_representation = self._gate_creator(position, QuantumGates.x_pauli) * Matrix(
             self.matrix_representation
         )  # type: ignore
-        self.string_representation = States.encode_state(self.matrix_representation)
+        self.string_representation = States.encode_state(self.matrix_representation)  # type: ignore
 
     def z(self, position: int) -> None:
-        """z-pauli gate, also called phase-flip-gate, leaves |0> unchanged and replaces |1> with -|1>
-
-        :param position: declares which qbit has to be modified
         """
-        self.matrix_representation = Matrix(self.matrix_representation) * self.gate_creator(
+        Z-pauli gate, also called phase-flip-gate, leave |0> unchanged and replaces |1> with -|1>.
+
+        :param position: index of qbit to be reverted
+        :return: None
+        """
+        self.matrix_representation = Matrix(self.matrix_representation) * self._gate_creator(
             position, QuantumGates.z_pauli
         )
-        self.string_representation = States.encode_state(self.matrix_representation)
-        # type: ignore
+        self.string_representation = States.encode_state(self.matrix_representation)  # type: ignore
 
     def h(self, position: int) -> None:
-        """h-gate, called Hadamard gate, changes status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2)
-
-        :param position: declares which qbit has to be modified
         """
-        self.matrix_representation = Matrix(self.matrix_representation) * self.gate_creator(
+        H-gate, called Hadamard gate, change status from |0> to (|0> + |1>)/sqrt(2) and |1> to (|0> - |1>)/sqrt(2).
+
+        :param position: index of ubit to be reverted
+        :return: None
+        """
+        self.matrix_representation = Matrix(self.matrix_representation) * self._gate_creator(
             position, QuantumGates.hadamard
         )
         self.string_representation = States.encode_state(self.matrix_representation)  # type: ignore
 
     def show_state(self) -> str:
+        """
+        Return current string representation of qbit.
+
+        :return: string representation of qbit
+        """
         return self.string_representation
 
     def measure(self) -> typing.Optional[str]:
-        """function measuring value of superpositioned qbit basing on digital random module
+        """
+        Measure value of superpositioned qbit based on digital random module.
 
         :return: integer value 0 or 1 of measured qbits
         """
