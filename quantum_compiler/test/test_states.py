@@ -6,7 +6,7 @@ from .. import states
 QUBITS = []
 
 for i in range(1, 4):
-    qubits_i = [s for s in product(states.QUBIT_MATRICES.keys(), repeat=i)]
+    qubits_i = [s for s in product(states.QBIT_MATRICES.keys(), repeat=i)]
     QUBITS.extend(["|" + "".join(s) + ">" for s in qubits_i])
     QUBITS.extend(["-|" + "".join(s) + ">" for s in qubits_i])
 
